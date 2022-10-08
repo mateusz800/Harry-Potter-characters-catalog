@@ -1,0 +1,12 @@
+.sortable{
+    cursor: pointer;
+}
+.sortable::after{
+    content: "\21C5";
+}
+.sortable.asc::after{
+    content: "\2191";
+}
+.sortable.desc::after{
+    content: "\2193";
+}
