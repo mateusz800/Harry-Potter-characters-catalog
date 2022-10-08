@@ -6,13 +6,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div>
-        <button>All students</button>
-        <button>Gryffindor</button>
-        <button>Slytherin</button>
-        <button>Hufflepuff</button>
-        <button>Ravenclaw</button>
+<body onload="init()">
+    <div id="nav-btns-container">
+        <button onclick="fetchDataForButton('students', event.target)">All students</button>
+        <button onclick="fetchDataForButton('house/gryffindor', event.target)">Gryffindor</button>
+        <button onclick="fetchDataForButton('house/slytherin', event.target)">Slytherin</button>
+        <button onclick="fetchDataForButton('house/hufflepuff', event.target)">Hufflepuff</button>
+        <button onclick="fetchDataForButton('house/ravenclaw', event.target)">Ravenclaw</button>
         <button>Favorites</button>
     </div>
     <table id="data-table">
@@ -26,6 +26,18 @@
         </thead>
         <tbody></tbody>
     </table>
+
+    <div class="modal" id="modal-character-details">
+        <div class="modal-bg" onclick="hideModal()"></div>
+        <div class="modal-content flex-row">
+            <div class="character-image"></div>
+            <div>
+                <h2 class="name"></h2>
+                <div class="character-info-container"></div>
+            </div>
+
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

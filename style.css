@@ -1,12 +1,78 @@
-.sortable{
+body.modal-open {
+    overflow-y: hidden;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    ;
+}
+
+button.active {
+    background-color: red;
+}
+
+/* 
+table 
+*/
+#data-table tbody tr:hover {
+    background-color: blue;
     cursor: pointer;
 }
-.sortable::after{
+
+.sortable {
+    cursor: pointer;
+}
+
+.sortable::after {
     content: "\21C5";
 }
-.sortable.asc::after{
+
+.sortable.asc::after {
     content: "\2191";
 }
-.sortable.desc::after{
+
+.sortable.desc::after {
     content: "\2193";
+}
+
+
+/*
+modal
+*/
+.modal {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-bg {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.modal-content {
+    width: 90%;
+    height: 90%;
+    background: white;
+    z-index: 2;
+}
+
+#modal-character-details .character-image {
+    width: 100px;
+    height: 100px;
+    background-image: url("./assets/blank-profile-picture.svg");
+    background-size: cover;
+    background-position: top center;
 }
