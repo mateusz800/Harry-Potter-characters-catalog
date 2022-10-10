@@ -11,9 +11,14 @@ const SortDirection = {
   desc: "desc",
 };
 
-// DOM nodes
+const LocalStorageKey = {
+  favouriteCharacters : 'favourites'
+}
+
 const body = document.querySelector("body");
-const dataTableBody = document.querySelector("#data-table tbody");
+const tableContainer = document.querySelector('#table-container')
+const dataTableBody = document.querySelector('#data-table tbody');
+const favouriesContainer = document.querySelector('#favourites-container');
 const characterDetailsModal = document.querySelector(
   "#modal-character-details"
 );
@@ -21,15 +26,16 @@ const studentButton = document.querySelector(
   "#nav-btns-container button:first-of-type"
 );
 
-// App state
 const tableColumnsNames = [
   ...document.querySelectorAll("#data-table thead th"),
 ].map((column) => column.textContent);
 let charactersData = [];
 let sortBy = null;
 let sortDirection = SortDirection.asc;
+let currentCharacterIndex = 0;
+let favouriteCharacters = []
 
-function init(){
+function init() {
   studentButton.click();
   document.querySelectorAll(".sortable").forEach((item) => {
     item.onclick = () => {
@@ -37,6 +43,7 @@ function init(){
       sortBy = item;
     };
   });
+  updateFavouriteCharactersVariable()
 }
 
 function fetchData(route) {
@@ -64,8 +71,10 @@ function fetchData(route) {
     });
 }
 
-function fetchDataForButton(route, button) {
+function retrieveRelevantData(route, button) {
   fetchData(route);
+  tableContainer.classList.remove('hidden');
+  favouriesContainer.classList.add('hidden');
   setNavigationButtonActive(button);
   resetSortButton();
   sortBy = null;
@@ -100,6 +109,7 @@ function toggleSortDirection(headerItem) {
   });
   updateTable();
 }
+
 function resetSortButton() {
   const prevSortButton = document.querySelector(`.sortable.${sortDirection}`);
   if (prevSortButton != null) {
@@ -123,9 +133,8 @@ function updateTable() {
 
 function showCharacterDetails(characterIndex) {
   const character = charactersData[characterIndex];
-  characterDetailsModal.classList.add("show");
-  body.classList.add("modal-open");
   const image = character[character.length - 1].image;
+  showModal();
   characterDetailsModal.querySelector(
     ".character-image"
   ).style.backgroundImage = `url(${
@@ -143,9 +152,54 @@ function showCharacterDetails(characterIndex) {
   `
       )
       .join("");
+    currentCharacterIndex = characterIndex;
+}
+
+function showModal(){
+   characterDetailsModal.classList.add("show");
+  body.classList.add("modal-open");
 }
 
 function hideModal() {
   document.querySelector(".modal.show").classList.remove("show");
   body.classList.remove("modal-open");
+}
+
+function toggleFavourites(){
+  console.log(favouriteCharacters);
+  if(favouriteCharacters.includes(charactersData[currentCharacterIndex])){
+    removeCharacterFromFavourites(charactersData[currentCharacterIndex]);
+  } else {
+    addCharacterToFavorites(charactersData[currentCharacterIndex]);
+  }
+}
+
+function updateFavouriteCharactersVariable(){
+  favouriteCharacters = JSON.parse(localStorage.getItem(LocalStorageKey.favouriteCharacters));
+  if(!favouriteCharacters){
+    favouriteCharacters = []
+  }
+}
+
+function addCharacterToFavorites(character){
+  if(!favouriteCharacters.includes(character)){
+    favouriteCharacters.push(character);
+  }
+  localStorage.setItem(LocalStorageKey.favouriteCharacters, JSON.stringify(favouriteCharacters));
+}
+
+function removeCharacterFromFavourites(character){
+  favouriteCharacters = favouriteCharacters.filter(item => item != character);
+  localStorage.setItem(LocalStorageKey.favouriteCharacters, JSON.stringify(favouriteCharacters));
+}
+
+function showFavouriteCharacters(){
+  tableContainer.classList.add('hidden');
+  favouriesContainer.classList.remove('hidden');
+  console.log(favouriteCharacters);
+  favouriesContainer.innerHTML = favouriteCharacters.map(character => `
+  <div class='card'>
+    <h3>${character[0]}</h3>
+  </div>
+  `).join('');
 }

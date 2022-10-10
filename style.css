@@ -7,6 +7,9 @@ body.modal-open {
     flex-direction: row;
     ;
 }
+.hidden{
+    display: none;
+}
 
 button.active {
     background-color: red;

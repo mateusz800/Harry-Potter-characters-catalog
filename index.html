@@ -8,34 +8,43 @@
 
 <body onload="init()">
     <div id="nav-btns-container">
-        <button onclick="fetchDataForButton('students', event.target)">All students</button>
-        <button onclick="fetchDataForButton('house/gryffindor', event.target)">Gryffindor</button>
-        <button onclick="fetchDataForButton('house/slytherin', event.target)">Slytherin</button>
-        <button onclick="fetchDataForButton('house/hufflepuff', event.target)">Hufflepuff</button>
-        <button onclick="fetchDataForButton('house/ravenclaw', event.target)">Ravenclaw</button>
-        <button>Favorites</button>
+        <button onclick="retrieveRelevantData('students', event.target)">All students</button>
+        <button onclick="retrieveRelevantData('house/gryffindor', event.target)">Gryffindor</button>
+        <button onclick="retrieveRelevantData('house/slytherin', event.target)">Slytherin</button>
+        <button onclick="retrieveRelevantData('house/hufflepuff', event.target)">Hufflepuff</button>
+        <button onclick="retrieveRelevantData('house/ravenclaw', event.target)">Ravenclaw</button>
+        <button onclick="showFavouriteCharacters()">Favorites</button>
     </div>
-    <table id="data-table">
-        <thead>
-            <th class="sortable">Name</th>
-            <th class="sortable">Date of birth</th>
-            <th class="sortable">House</th>
-            <th>Wizard</th>
-            <th>Ancestry</th>
-            <th>Is student/staff</th>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div id="content">
+        <div id="table-container">
+            <table id="data-table">
+                <thead>
+                    <th class="sortable">Name</th>
+                    <th class="sortable">Date of birth</th>
+                    <th class="sortable">House</th>
+                    <th>Wizard</th>
+                    <th>Ancestry</th>
+                    <th>Is student/staff</th>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="favourites-container" class="hidden"></div>
+    </div>
 
     <div class="modal" id="modal-character-details">
         <div class="modal-bg" onclick="hideModal()"></div>
-        <div class="modal-content flex-row">
-            <div class="character-image"></div>
-            <div>
-                <h2 class="name"></h2>
-                <div class="character-info-container"></div>
+        <div class="modal-content">
+            <div class="modal-close">&#10005;</div>
+            <div class="flex-row">
+                <div class="character-image">
+                    <button class="star" onclick="toggleFavourites()">&star;</button>
+                </div>
+                <div>
+                    <h2 class="name"></h2>
+                    <div class="character-info-container"></div>
+                </div>
             </div>
-
         </div>
     </div>
 
