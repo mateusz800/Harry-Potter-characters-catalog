@@ -66,10 +66,10 @@ modal
 }
 
 .modal-content {
-    width: 90%;
-    height: 90%;
     background: white;
     z-index: 2;
+    padding: 30px;
+    border-radius: 10px;
 }
 
 #modal-character-details .character-image {

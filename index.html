@@ -3,52 +3,41 @@
 
 <head>
     <title>Page Title</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
-<body onload="init()">
+<body>
     <div id="nav-btns-container">
-        <button onclick="retrieveRelevantData('students', event.target)">All students</button>
-        <button onclick="retrieveRelevantData('house/gryffindor', event.target)">Gryffindor</button>
-        <button onclick="retrieveRelevantData('house/slytherin', event.target)">Slytherin</button>
-        <button onclick="retrieveRelevantData('house/hufflepuff', event.target)">Hufflepuff</button>
-        <button onclick="retrieveRelevantData('house/ravenclaw', event.target)">Ravenclaw</button>
-        <button onclick="showFavouriteCharacters()">Favorites</button>
+        <button class="students" >All students</button>
+        <button class="gryffindor">Gryffindor</button>
+        <button class="slytherin">Slytherin</button>
+        <button class="hufflepuff">Hufflepuff</button>
+        <button class="ravenclaw" >Ravenclaw</button>
+        <button class="favourites">Favorites</button>
     </div>
     <div id="content">
-        <div id="table-container">
+        <div id="table-container" class="module-container">
             <table id="data-table">
                 <thead>
-                    <th class="sortable">Name</th>
-                    <th class="sortable">Date of birth</th>
-                    <th class="sortable">House</th>
-                    <th>Wizard</th>
-                    <th>Ancestry</th>
-                    <th>Is student/staff</th>
+                    <th class="sortable" data-param="name">Name</th>
+                    <th class="sortable" data-param="dateOfBirth" data-type="date">Date of birth</th>
+                    <th class="sortable" data-param="house">House</th>
+                    <th data-param="wizard">Wizard</th>
+                    <th data-param="ancestry">Ancestry</th>
+                    <th data-param="hogwartsRole">Is student/staff</th>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
-        <div id="favourites-container" class="hidden"></div>
+        <div id="favourites-container" class="module-container hidden"></div>
     </div>
 
     <div class="modal" id="modal-character-details">
-        <div class="modal-bg" onclick="hideModal()"></div>
-        <div class="modal-content">
-            <div class="modal-close">&#10005;</div>
-            <div class="flex-row">
-                <div class="character-image">
-                    <button class="star" onclick="toggleFavourites()">&star;</button>
-                </div>
-                <div>
-                    <h2 class="name"></h2>
-                    <div class="character-info-container"></div>
-                </div>
-            </div>
-        </div>
+        <div class="modal-bg" ></div>
+        <div class="modal-close">&#10005;</div>
+        <div class="modal-content"> </div>
     </div>
-
-    <script src="script.js"></script>
+    <script src="./js/app.js" type="module"></script>
 </body>
 
 </html>

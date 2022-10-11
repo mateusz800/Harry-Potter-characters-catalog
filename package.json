@@ -1,0 +1,15 @@
+{
+  "name": "character-catalog",
+  "version": "1.0.0",
+  "description": "\"Harry Potter\" character catalog",
+  "main": "./js/app.js",
+  "scripts": {
+    "start": "http-server -e '.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mateusz Budnik",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
