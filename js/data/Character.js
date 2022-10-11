@@ -2,20 +2,21 @@
 export class Character {
     constructor(name, dateOfBirth, house, wizard, ancestry, hogwartsRole, image ){
         this.name = name;
-        this.dateOfBirth = dateOfBirth,
-        this.house = house,
+        this.dateOfBirth = dateOfBirth? dateOfBirth:"-",
+        this.house = house? house:"-",
         this.wizard = wizard,
-        this.ancestry = ancestry,
+        this.ancestry = ancestry? ancestry:"-",
         this.hogwartsRole = hogwartsRole,
         this.image = image
     }
 
     static calculateHogwartsRole(rawCharacterData){
         if(rawCharacterData.hogwartsStudent){
-            return 'Student';
+            return 'student';
         } else if(rawCharacterData.hogwartsStaff){
-            return 'Staff';
-        } else 'Other';
+            return 'staff';
+        } 
+        return 'no information';
     }
 
     static isEqual(character1, character2){

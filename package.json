@@ -2,9 +2,9 @@
   "name": "character-catalog",
   "version": "1.0.0",
   "description": "\"Harry Potter\" character catalog",
-  "main": "./js/app.js",
+  "main": "index.html",
   "scripts": {
-    "start": "http-server -e '.js'",
+    "start": "http-server  -e '.js' -f ./index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mateusz Budnik",

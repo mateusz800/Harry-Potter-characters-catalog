@@ -3,10 +3,12 @@
 export default class ModalModule{
     body = document.querySelector('body');
     modalNode = document.querySelector('.modal');
+    closeButton = this.modalNode.querySelector('.modal-close')
     contentNode = this.modalNode.querySelector('.modal-content')
 
     constructor(){
         this.modalNode.querySelector('.modal-bg').addEventListener('click', () => this.hide())
+        this.closeButton.addEventListener('click', () => this.hide())
     }
 
     show(){

@@ -1,4 +1,4 @@
-import { Character } from "./Character";
+import { Character } from "../data/Character";
 
 const API_URL = "https://hp-api.herokuapp.com/api/characters";
 
@@ -44,8 +44,8 @@ export default class CharacterRepository {
   }
 
   static removeFromFavourites(character) {
-    let favourites = JSON.parse(this.getFavourites());
-    favourites = favourites.filter(item => item != character);
+    let favourites = this.getFavourites();
+    favourites = favourites.filter(item => !Character.isEqual(item, character));
     localStorage.setItem('favourites', JSON.stringify(favourites));
   }
 

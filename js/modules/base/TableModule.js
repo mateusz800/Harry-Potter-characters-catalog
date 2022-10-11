@@ -3,22 +3,20 @@ import DateUtils from "../../utils/DateUtils";
 import CharacterDetailsModal from "../CharacterDetailsModal";
 import { SortDirection } from "../../data/SortDirection";
 
-
-
 class TableModule {
   tableContainer = document.querySelector("#table-container");
   dataTableBody = document.querySelector("#data-table tbody");
 
   charactersData = [];
   sortBy = null;
-  sortDirection = SortDirection.asc;
+  sortDirection = SortDirection.default;
   currentCharacterIndex = 0;
   favouriteCharacters = [];
 
   show() {
     this.loadData().then((data) => {
       this.charactersData = data;
-      this.updateTable();
+      this.updateTable(this.charactersData);
       document.querySelectorAll(".sortable").forEach((item) => {
         item.onclick = () => {
           this.toggleSortDirection(item);
@@ -36,9 +34,9 @@ class TableModule {
     throw new Error("loadData() function not implemented");
   }
 
-  updateTable() {
+  updateTable(data) {
     this.dataTableBody.innerHTML = "";
-    this.charactersData.forEach((character) =>
+    data.forEach((character) =>
       this.dataTableBody.appendChild(
         TableRow(character, () => this.showModal(character))
       )
@@ -53,40 +51,48 @@ class TableModule {
     if (this.sortBy != null) {
       this.resetSortButton();
       this.sortDirection =
-        this.sortDirection == SortDirection.asc
+        this.sortDirection == SortDirection.default
+          ? SortDirection.asc
+          : this.sortDirection == SortDirection.asc
           ? SortDirection.desc
-          : SortDirection.asc;
+          : SortDirection.default;
     }
-    headerItem.classList.add(this.sortDirection);
-    const property = headerItem.getAttribute("data-param");
-    this.charactersData = this.charactersData.sort((elem1, elem2) => {
-      let comparison;
+    if (this.sortDirection != SortDirection.default) {
+      headerItem.classList.add(this.sortDirection);
+      const property = headerItem.getAttribute("data-param");
+      const sortedData = [...this.charactersData].sort((elem1, elem2) => {
+        let comparison;
+        switch (headerItem.getAttribute("data-type")) {
+          case "date":
+            return DateUtils.compareDates(
+              DateUtils.convertToDate(elem1[property]),
+              DateUtils.convertToDate(elem2[property]),
+              this.sortDirection
+            );
+            break;
+          default:
+            comparison = elem1[property].localeCompare(elem2[property]);
+        }
+        return this.sortDirection == SortDirection.desc
+          ? -comparison
+          : comparison;
+      });
+      this.updateTable(sortedData);
+    } else {
+      this.updateTable(this.charactersData);
+    }
 
-      switch (headerItem.getAttribute("data-type")) {
-        case "date":
-          return DateUtils.compareDates(
-            DateUtils.convertToDate(elem1[property]),
-            DateUtils.convertToDate(elem2[property]),
-            this.sortDirection
-          );
-          break;
-        default:
-          comparison = elem1[property].localeCompare(elem2[property]);
-      }
-      return this.sortDirection == SortDirection.desc
-        ? -comparison
-        : comparison;
-    });
-
-    this.updateTable();
+    
   }
 
   resetSortButton() {
-    const prevSortButton = document.querySelector(
-      `.sortable.${this.sortDirection}`
-    );
-    if (prevSortButton != null) {
-      prevSortButton.classList.remove(this.sortDirection);
+    if (this.sortDirection != SortDirection.default) {
+      const prevSortButton = document.querySelector(
+        `.sortable.${this.sortDirection}`
+      );
+      if (prevSortButton != null) {
+        prevSortButton.classList.remove(this.sortDirection);
+      }
     }
   }
 }

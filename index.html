@@ -7,15 +7,16 @@
 </head>
 
 <body>
-    <div id="nav-btns-container">
-        <button class="students" >All students</button>
-        <button class="gryffindor">Gryffindor</button>
-        <button class="slytherin">Slytherin</button>
-        <button class="hufflepuff">Hufflepuff</button>
-        <button class="ravenclaw" >Ravenclaw</button>
-        <button class="favourites">Favorites</button>
-    </div>
     <div id="content">
+        <div id="nav-btns-container">
+            <button class="students">All students</button>
+            <button class="gryffindor">Gryffindor</button>
+            <button class="slytherin">Slytherin</button>
+            <button class="hufflepuff">Hufflepuff</button>
+            <button class="ravenclaw">Ravenclaw</button>
+            <button class="favourites">Favorites</button>
+        </div>
+  
         <div id="table-container" class="module-container">
             <table id="data-table">
                 <thead>
@@ -29,13 +30,27 @@
                 <tbody></tbody>
             </table>
         </div>
-        <div id="favourites-container" class="module-container hidden"></div>
+        <div id="favourites-container" class="module-container hidden">
+            <div class="align-right">
+                <spans>Cards in row: </span>
+                <select name="cards-in-row">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="cards-container"></div>
+        </div>
     </div>
 
     <div class="modal" id="modal-character-details">
-        <div class="modal-bg" ></div>
-        <div class="modal-close">&#10005;</div>
-        <div class="modal-content"> </div>
+        <div class="modal-bg"></div>
+        <div class="modal-window">
+            <div class="modal-close">&#10005;</div>
+            <div class="modal-content"> </div>
+        </div>
     </div>
     <script src="./js/app.js" type="module"></script>
 </body>

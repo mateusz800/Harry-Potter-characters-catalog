@@ -1,3 +1,4 @@
+import { SortDirection } from "../data/SortDirection.js";
 import FavouritesModule from "./FavouritesModule.js";
 import {
   StudentsModule,
@@ -19,24 +20,39 @@ export default class NavigationModule {
 
   constructor() {
     this.allStudentsModule.show();
+    window.onhashchange = (event) => {
+      console.log(window.location.hash);
+    }
     document
       .querySelector("button.students")
-      .addEventListener("click", (e) => this.showModule(this.allStudentsModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.allStudentsModule, e.target)
+      );
     document
       .querySelector("button.gryffindor")
-      .addEventListener("click", (e) => this.showModule(this.gryffindorModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.gryffindorModule, e.target)
+      );
     document
       .querySelector("button.slytherin")
-      .addEventListener("click", (e) => this.showModule(this.slytherinModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.slytherinModule, e.target)
+      );
     document
       .querySelector("button.hufflepuff")
-      .addEventListener("click", (e) => this.showModule(this.hufflepuffModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.hufflepuffModule, e.target)
+      );
     document
       .querySelector("button.ravenclaw")
-      .addEventListener("click", (e) => this.showModule(this.ravenclawModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.ravenclawModule, e.target)
+      );
     document
       .querySelector("button.favourites")
-      .addEventListener("click", (e) => this.showModule(this.favouritesModule, e.target));
+      .addEventListener("click", (e) =>
+        this.showModule(this.favouritesModule, e.target)
+      );
   }
 
   static getInstance() {
@@ -50,9 +66,16 @@ export default class NavigationModule {
     document
       .querySelector(".module-container:not(.hidden)")
       .classList.add("hidden");
+    Object.entries(SortDirection).forEach((sort) => {
+      if (sort[1] != SortDirection.default) {
+        try{
+          const elem = document.querySelector(`.sortable.${sort[1]}`).classList.remove(sort[1]);
+        } catch(err){}
+      }
+    });
     if (typeof module["show"] == "function") {
       module.show();
-      this.setNavigationButtonActive(button)
+      this.setNavigationButtonActive(button);
     }
   }
 

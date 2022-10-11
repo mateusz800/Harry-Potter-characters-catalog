@@ -1,4 +1,4 @@
-import CharacterRepository from "../data/CharacterRepository";
+import CharacterRepository from "../repository/CharacterRepository";
 import TableModule from "./base/TableModule";
 
 export class StudentsModule extends TableModule {
