@@ -18,41 +18,47 @@ export default class NavigationModule {
   ravenclawModule = new RavenclawModule();
   favouritesModule = new FavouritesModule();
 
+  studentButton = document.querySelector("button.students");
+
   constructor() {
-    this.allStudentsModule.show();
-    window.onhashchange = (event) => {
-      console.log(window.location.hash);
-    }
+    const gryffindorButton = document.querySelector("button.gryffindor");
+    const slytherinButton = document.querySelector("button.slytherin");
+    const hufflepuffButton = document.querySelector("button.hufflepuff");
+    const ravenclawButton = document.querySelector("button.ravenclaw");
+    const favouritesButton = document.querySelector("button.favourites");
+
+    this.studentButton.addEventListener("click", (e) =>
+      this.showModule(this.allStudentsModule, e.target)
+    );
+
+    gryffindorButton.addEventListener("click", (e) =>
+      this.showModule(this.gryffindorModule, e.target)
+    );
+    slytherinButton.addEventListener("click", (e) =>
+      this.showModule(this.slytherinModule, e.target)
+    );
+    hufflepuffButton.addEventListener("click", (e) =>
+      this.showModule(this.hufflepuffModule, e.target)
+    );
+    ravenclawButton.addEventListener("click", (e) =>
+      this.showModule(this.ravenclawModule, e.target)
+    );
+    favouritesButton.addEventListener("click", (e) =>
+      this.showModule(this.favouritesModule, e.target)
+    );
+    let chosenButton = this.studentButton;
+    const lastModule = localStorage.getItem('last-module');
     document
-      .querySelector("button.students")
-      .addEventListener("click", (e) =>
-        this.showModule(this.allStudentsModule, e.target)
-      );
-    document
-      .querySelector("button.gryffindor")
-      .addEventListener("click", (e) =>
-        this.showModule(this.gryffindorModule, e.target)
-      );
-    document
-      .querySelector("button.slytherin")
-      .addEventListener("click", (e) =>
-        this.showModule(this.slytherinModule, e.target)
-      );
-    document
-      .querySelector("button.hufflepuff")
-      .addEventListener("click", (e) =>
-        this.showModule(this.hufflepuffModule, e.target)
-      );
-    document
-      .querySelector("button.ravenclaw")
-      .addEventListener("click", (e) =>
-        this.showModule(this.ravenclawModule, e.target)
-      );
-    document
-      .querySelector("button.favourites")
-      .addEventListener("click", (e) =>
-        this.showModule(this.favouritesModule, e.target)
-      );
+      .querySelectorAll("#nav-btns-container button")
+      .forEach((button) => {
+        if (
+          this.buildRouteBasedOnTextContent(button) == lastModule
+        ) {
+          chosenButton = button;
+          return;
+        }
+      });
+      chosenButton.click();
   }
 
   static getInstance() {
@@ -63,20 +69,31 @@ export default class NavigationModule {
   }
 
   showModule(module, button) {
-    document
-      .querySelector(".module-container:not(.hidden)")
-      .classList.add("hidden");
+    const previousModule = document.querySelector(
+      ".module-container:not(.hidden)"
+    );
+    if (previousModule) {
+      previousModule.classList.add("hidden");
+    }
+
     Object.entries(SortDirection).forEach((sort) => {
       if (sort[1] != SortDirection.default) {
-        try{
-          const elem = document.querySelector(`.sortable.${sort[1]}`).classList.remove(sort[1]);
-        } catch(err){}
+        try {
+          const elem = document
+            .querySelector(`.sortable.${sort[1]}`)
+            .classList.remove(sort[1]);
+        } catch (err) {}
       }
     });
     if (typeof module["show"] == "function") {
       module.show();
       this.setNavigationButtonActive(button);
+      localStorage.setItem('last-module', this.buildRouteBasedOnTextContent(button));
     }
+  }
+
+  buildRouteBasedOnTextContent(button) {
+    return `${button.textContent.replace(" ", "")}`.toLowerCase();
   }
 
   setNavigationButtonActive(button) {

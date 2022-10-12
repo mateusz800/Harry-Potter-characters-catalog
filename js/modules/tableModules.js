@@ -1,5 +1,5 @@
-import CharacterRepository from "../repository/CharacterRepository";
-import TableModule from "./base/TableModule";
+import CharacterRepository from "../repository/CharacterRepository.js";
+import TableModule from "./base/TableModule.js";
 
 export class StudentsModule extends TableModule {
   async loadData() {

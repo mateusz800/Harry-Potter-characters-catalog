@@ -1,11 +1,11 @@
-import { TableRow } from "../../components/TableRow";
-import DateUtils from "../../utils/DateUtils";
-import CharacterDetailsModal from "../CharacterDetailsModal";
-import { SortDirection } from "../../data/SortDirection";
+import DateUtils from "../../utils/DateUtils.js";
+import CharacterDetailsModal from "../CharacterDetailsModal.js";
+import { SortDirection } from "../../data/SortDirection.js";
 
 class TableModule {
   tableContainer = document.querySelector("#table-container");
   dataTableBody = document.querySelector("#data-table tbody");
+  loader = document.querySelector('.loader-container');
 
   charactersData = [];
   sortBy = null;
@@ -14,6 +14,7 @@ class TableModule {
   favouriteCharacters = [];
 
   show() {
+    this.loader.classList.remove('hidden');
     this.loadData().then((data) => {
       this.charactersData = data;
       this.updateTable(this.charactersData);
@@ -23,6 +24,7 @@ class TableModule {
           this.sortBy = item;
         };
       });
+      this.loader.classList.add('hidden');
     });
 
     this.sortBy = null;
@@ -64,11 +66,9 @@ class TableModule {
         let comparison;
         switch (headerItem.getAttribute("data-type")) {
           case "date":
-            return DateUtils.compareDates(
-              DateUtils.convertToDate(elem1[property]),
-              DateUtils.convertToDate(elem2[property]),
-              this.sortDirection
-            );
+            comparison = DateUtils.convertToYearMonthDay(
+              elem1[property]
+            ).localeCompare(DateUtils.convertToYearMonthDay(elem2[property]));
             break;
           default:
             comparison = elem1[property].localeCompare(elem2[property]);
@@ -81,8 +81,6 @@ class TableModule {
     } else {
       this.updateTable(this.charactersData);
     }
-
-    
   }
 
   resetSortButton() {
@@ -96,5 +94,22 @@ class TableModule {
     }
   }
 }
+
+const TableRow = (character, onclick) => {
+  let row = document.createElement("tr");
+  row.addEventListener("click", function () {
+    onclick();
+  });
+  row.innerHTML = `
+        <td>${character.name}</td>
+        <td>${character.dateOfBirth}</td>
+        <td>${character.house}</td>
+        <td>${character.wizard}</td>
+        <td>${character.ancestry}</td>
+        <td>${character.hogwartsRole}</td>
+    `;
+  return row;
+};
+
 
 export default TableModule;

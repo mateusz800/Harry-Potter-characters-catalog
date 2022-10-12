@@ -1,4 +1,4 @@
-import { Character } from "../data/Character";
+import { Character } from "../data/Character.js";
 
 const API_URL = "https://hp-api.herokuapp.com/api/characters";
 
@@ -47,12 +47,19 @@ export default class CharacterRepository {
     let favourites = this.getFavourites();
     favourites = favourites.filter(item => !Character.isEqual(item, character));
     localStorage.setItem('favourites', JSON.stringify(favourites));
+    return favourites;
   }
 
   static async fetchData(route) {
     return fetch(`${API_URL}/${route}`)
-      .then((response) => response.json())
-      .then((data) => this.adjustData(data));
+      .then((response) => {
+        if(response.ok){
+          return response.json()
+        } else {
+          alert("Failed to fetch data");
+          return [];
+        }
+      }).then(data => this.adjustData(data) );
   }
 
   static async adjustData(data) {

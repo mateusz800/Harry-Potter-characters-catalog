@@ -2,14 +2,15 @@
   "name": "character-catalog",
   "version": "1.0.0",
   "description": "\"Harry Potter\" character catalog",
-  "main": "index.html",
+  "main": "./js/app.js",
   "scripts": {
-    "start": "http-server  -e '.js' -f ./index.html",
+    "start": "http-server --port 8080 --proxy 'http://localhost:8080?'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mateusz Budnik",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "serve": "^14.0.1"
   }
 }

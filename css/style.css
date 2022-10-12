@@ -30,6 +30,18 @@ button.active {
 #content{
     max-width:1200px;
     margin:auto;
+    min-height: calc(100vh - 55px);
+}
+.loader-container {
+    width: 100%;
+    height: 100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    background: 
+        url("../assets/loading.gif") center
+        no-repeat;
+    z-index: 1;
 }
 
 /*
@@ -47,24 +59,27 @@ menu
     opacity: 0.7;
     font-weight: bold;
     cursor: pointer;
-    border-bottom:10px solid rgba(0,0,0,0);
+    border-bottom:5px solid rgba(0,0,0,0);
 }
 
 #nav-btns-container button.active {
     opacity: 1;
-    border-bottom: 10px solid #D3A625;
+    border-bottom: 5px solid #D3A625;
 }
 
 /* 
 table 
 */
+#table-container{
+    max-width: 100vw;
+    overflow-x: auto;
+}
 #data-table tbody tr:hover {
     background-color: rgb(211,168,37) !important; 
 }
 
 table {
     width: 100%;
-    max-width: 1000px;
     text-align: justify;
     margin: auto;
     font-size: 18px;
@@ -74,15 +89,21 @@ table {
 table th {
     font-size: 20px;
     border-bottom:1px solid black;
+    min-width:150px;
 }
 
 table td{
     padding:5px;
+    min-width: fit-content;
 }
-table tbody::before{
+#data-table tbody::before{
     content:"";
     height:20px;
     display: block;
+}
+#data-table{
+    width: 1000px;
+    max-width:100%;
 }
 #data-table thead{
     position:sticky;
@@ -99,15 +120,13 @@ table tbody::before{
 #data-table tbody tr:nth-child(odd){
     background-color:rgba(211,168,37, 0.1) ;
 }
-
-
-
 .sortable {
     cursor: pointer;
 }
 
 .sortable::after {
     content: "\21C5";
+    font-size: 16px;
 }
 
 .sortable.asc::after {
@@ -117,12 +136,12 @@ table tbody::before{
 .sortable.desc::after {
     content: "\2193";
 }
-
-
 /*
 modal
 */
-
+body.modal-open{
+    overflow: hidden;
+}
 .modal {
     display: none;
     width: 100vw;
@@ -151,6 +170,8 @@ modal
     padding: 10px;
     border-radius: 10px;
     z-index: 1;
+    max-height:calc(100vh - 20px);
+    overflow-y: auto;
 }
 
 .modal-content {
@@ -220,6 +241,7 @@ favourites
     grid-template-columns: repeat(3, 1fr);
     margin:auto;
     margin-top:20px;
+    max-width: calc(100vw - 20px);
 }
 .card{
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -232,4 +254,46 @@ favourites
     width:100%;
     height:200px;
     background-size: cover;
+    background-position: top center;
+}
+.card button{
+    margin:0 20px;
+}
+
+
+/*
+footer
+*/
+footer{
+    position: absolute;
+    left:0;
+    width:100vw;
+    text-align: center;
+    margin-top:30px;
+}
+
+
+/*
+responsive
+*/
+@Media only screen and (max-width:768px){
+    .hide-mobile{
+        display: none;
+    }
+    .mobile-flex-column{
+        display: flex;
+        flex-direction: column;
+    }
+    .cards-container{
+        grid-template-columns: 1fr !important;
+        width:fit-content !important;
+        max-width: 100vw !important;
+    }
+    .modal-content{
+        padding:10px 20px;
+    }
+    .character-info-container{
+        margin-left:0;
+    }
+
 }

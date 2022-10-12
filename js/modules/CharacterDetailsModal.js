@@ -1,24 +1,28 @@
-import { Character } from "../data/Character";
-import CharacterRepository from "../repository/CharacterRepository";
-import ModalModule from "./base/ModalModule";
+import { Character } from "../data/Character.js";
+import CharacterRepository from "../repository/CharacterRepository.js";
+import ModalModule from "./base/ModalModule.js";
 
 export default class CharacterDetailsModal extends ModalModule {
   starButton;
+  image = new Image();
 
   constructor(character) {
     super();
     this.character = character;
-    this.isCharacterFavourite = CharacterRepository.getFavourites().filter(
-      (item) => Character.isEqual(this.character, item)
-    ).length > 0;
+    this.isCharacterFavourite =
+      CharacterRepository.getFavourites().filter((item) =>
+        Character.isEqual(this.character, item)
+      ).length > 0;
   }
 
   setContent() {
     this.contentNode.innerHTML = `
-        <div class="flex-row">
+        <div class="flex-row mobile-flex-column">
            <div class="flex-column align-center">
               <div class="character-image" style="background-image: url(${
-                this.character.image? this.character.image:'./assets/blank-profile-picture.svg'
+                this.character.image
+                  ? "../assets/loading.gif"
+                  : "../assets/blank-profile-picture.svg"
               })">
               </div>
               <div class="star-btn
@@ -56,6 +60,13 @@ export default class CharacterDetailsModal extends ModalModule {
               </table>
             </div>
         </div>`;
+    if (this.character.image) {
+      const image = new Image();
+      image.onload = function () {
+        document.querySelector(".modal-content .character-image").style.backgroundImage = `url('${image.src}')`;
+      };
+      image.src = this.character.image;
+    }
     this.starButton = document.querySelector(
       "#modal-character-details .star-btn"
     );
